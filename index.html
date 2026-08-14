@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 연말정산 절세 도우미 | 예상 환급액 계산기</title>
+  <meta name="description" content="2026년 귀속 연말정산 절세 도우미. 세전 연봉, 부양 자녀 수, 신용카드, 현금영수증 사용액을 입력하고 예상 환급액과 절세 추천사항을 확인하세요.">
+  <meta name="keywords" content="2026 연말정산, 연말정산 계산기, 신용카드 소득공제, 절세 도우미, 환급액 계산">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background Particles -->
+  <canvas id="particles"></canvas>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🏆</span>
+        <span>TaxMaster 2026</span>
+      </a>
+      
+      <button id="menuToggle" class="menu-toggle">☰</button>
+      
+      <nav id="navMenu" class="nav">
+        <a href="index.html" class="active">계산기</a>
+        <a href="guide.html">절세 가이드</a>
+        <a href="about.html">소개</a>
+        <div class="header-actions">
+          <button id="themeToggle" class="theme-toggle" aria-label="테마 전환">🌙</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <div class="hero-badge">2026년 귀속 세법 완벽 반영</div>
+    <h1>당신의 숨은 세금,<br><span class="gold-text">얼마나 돌려받을 수 있을까요?</span></h1>
+    <p>세전 연봉과 자녀 수, 카드 사용 내역만 입력하면 1분 만에 예상 환급액과 맞춤형 절세 전략을 알려드립니다.</p>
+  </section>
+
+  <!-- AD AREA (Top) -->
+  <div class="container">
+    <div class="ad-slot">
+      <!-- 카카오 애드핏 광고 슬롯 (임시 placeholder) -->
+      [ 카카오애드핏 상단 배너 광고 영역 ]<br>승인 후 코드 삽입
+      <!-- 실제 적용 시 아래 코드 사용
+      <ins class="kakao_ad_area" style="display:none;" data-ad-unit="YOUR_ID" data-ad-width="320" data-ad-height="100"></ins>
+      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+      -->
+    </div>
+  </div>
+
+  <!-- Calculator Input -->
+  <main class="container calculator-section">
+    <div class="glass-card">
+      <div class="section-title">
+        <span class="icon">💰</span> 입력 정보
+      </div>
+      
+      <!-- Input 1: Gross Salary -->
+      <div class="input-group">
+        <label for="inputGross">
+          <span>세전 연봉 (총급여액)</span>
+          <span class="unit">만원 단위</span>
+        </label>
+        <div class="input-wrapper">
+          <input type="text" id="inputGross" placeholder="예: 7000">
+          <span class="suffix">만 원</span>
+        </div>
+        <input type="range" id="sliderGross" min="0" max="3000" step="10" value="0">
+        <div class="input-hint">비과세 소득(식대 등)을 제외한 1년 총 급여를 입력하세요.</div>
+      </div>
+      
+      <!-- Input 2: Children -->
+      <div class="input-group">
+        <label for="inputChildren">
+          <span>부양 자녀 수 (20세 이하) ⚡️26년 개정</span>
+          <span class="unit">명</span>
+        </label>
+        <div class="input-wrapper">
+          <select id="inputChildren">
+            <option value="0">없음 (0명)</option>
+            <option value="1">1명 (+50만 원 공제 한도 확대)</option>
+            <option value="2">2명 이상 (+100만 원 공제 한도 확대)</option>
+          </select>
+        </div>
+        <div class="input-hint">자녀 1인당 카드 공제 기본 한도가 50만 원씩 늘어납니다 (최대 100만 원).</div>
+      </div>
+
+      <div class="detail-divider"></div>
+
+      <!-- Helper text -->
+      <div style="margin-bottom: var(--space-md); text-align: right;">
+        <button id="hometaxBtn" class="hometax-link-btn">내 사용금액 조회하는 법 (홈택스)</button>
+      </div>
+
+      <!-- Input 3: Credit Card -->
+      <div class="input-group">
+        <label for="inputCredit">
+          <span>신용카드 사용액</span>
+          <span class="unit">만원 단위</span>
+        </label>
+        <div class="input-wrapper">
+          <input type="text" id="inputCredit" placeholder="예: 1500">
+          <span class="suffix">만 원</span>
+        </div>
+        <div class="input-hint">공제율 15% 적용</div>
+      </div>
+
+      <!-- Input 4: Debit / Cash -->
+      <div class="input-group">
+        <label for="inputDebit">
+          <span>체크카드 / 현금영수증 사용액</span>
+          <span class="unit">만원 단위</span>
+        </label>
+        <div class="input-wrapper">
+          <input type="text" id="inputDebit" placeholder="예: 800">
+          <span class="suffix">만 원</span>
+        </div>
+        <div class="input-hint">공제율 30% 적용 (신용카드의 2배)</div>
+      </div>
+
+      <!-- Input 5: Market / Transport -->
+      <div class="input-group">
+        <label for="inputMarket">
+          <span>전통시장 / 대중교통 사용액</span>
+          <span class="unit">만원 단위</span>
+        </label>
+        <div class="input-wrapper">
+          <input type="text" id="inputMarket" placeholder="예: 100">
+          <span class="suffix">만 원</span>
+        </div>
+        <div class="input-hint">공제율 40% 적용, 별도 공제 한도 추가</div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-group">
+        <button id="calcBtn" class="btn btn-primary btn-full">공제금액 확인 및 절세 추천</button>
+        <button id="resetBtn" class="btn btn-secondary">초기화</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Result Section -->
+  <section id="resultSection" class="container result-section hidden">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card deduction">
+        <div class="card-label">총 소득공제 예상액</div>
+        <div>
+          <span id="outTotalDeduction" class="card-value">0</span>
+          <span class="card-unit">만 원</span>
+        </div>
+      </div>
+      <div class="summary-card neutral">
+        <div class="card-label">예상 결정세액 (연간)</div>
+        <div>
+          <span id="outDeterminedTax" class="card-value">0</span>
+          <span class="card-unit">만 원</span>
+        </div>
+      </div>
+      <div id="diffCard" class="summary-card refund">
+        <div id="outDifferenceLabel" class="card-label">예상 환급액</div>
+        <div>
+          <span id="outDifferenceAmount" class="card-value">0</span>
+          <span class="card-unit">만 원</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Progress -->
+    <div class="detail-card">
+      <div class="detail-title">
+        <span class="icon">📈</span> 공제 한도 달성률
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-header">
+          <div class="progress-label">기본 공제 한도 (자녀 수 반영)</div>
+          <div id="textBaseLimit" class="progress-value">0 / 0 만 원</div>
+        </div>
+        <div class="progress-bar">
+          <div id="progBaseLimit" class="progress-fill info" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="progress-item">
+        <div class="progress-header">
+          <div class="progress-label">추가 공제 한도 (전통시장/대중교통)</div>
+          <div id="textAddLimit" class="progress-value">0 / 0 만 원</div>
+        </div>
+        <div class="progress-bar">
+          <div id="progAddLimit" class="progress-fill success" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="detail-card">
+      <div class="detail-title">
+        <span class="icon">💡</span> 맞춤 절세 추천사항
+      </div>
+      <ul id="recommendationsList" class="recommendation-list">
+        <!-- Rendered via JS -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- AD AREA (Middle) -->
+  <div class="container">
+    <div class="ad-slot">
+      <!-- 구글 애드센스 광고 슬롯 (임시 placeholder) -->
+      [ 구글 애드센스 중간 배너 광고 영역 ]<br>승인 후 코드 삽입
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <section class="container">
+    <div class="disclaimer">
+      <div class="disclaimer-title">
+        <span class="icon">⚠️</span> 알아두세요
+      </div>
+      <p>
+        본 계산결과는 입력하신 신용카드 등 사용액을 바탕으로 산출된 <strong>예상치</strong>이며, 인적공제(배우자, 부모님 등), 연금계좌, 의료비, 교육비, 기부금 등 다른 공제 항목이 반영되지 않았습니다.<br>
+        간이세액표 100% 기준으로 기납부세액을 추정하여 환급/추가납부액을 계산하므로 실제 결과와 다를 수 있습니다. 정확한 연말정산 결과는 <strong>국세청 홈택스</strong>를 이용하시기 바랍니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-icon">🏆</span>
+          <span>TaxMaster 2026</span>
+        </a>
+        <p>당신의 똑똑한 연말정산 파트너.<br>2026년 귀속 세법 개정 반영.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>서비스</h4>
+          <ul>
+            <li><a href="index.html">계산기 홈</a></li>
+            <li><a href="guide.html">절세 가이드</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-group">
+          <h4>고객지원</h4>
+          <ul>
+            <li><a href="about.html">사이트 소개</a></li>
+            <li><a href="contact.html">문의하기</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-group">
+          <h4>정책</h4>
+          <ul>
+            <li><a href="privacy.html">개인정보처리방침</a></li>
+            <li><a href="terms.html">이용약관</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      &copy; 2026 TaxMaster. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Modal (Hometax Guide) -->
+  <div id="hometaxModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>국세청 홈택스 조회 방법</h3>
+        <button id="closeModal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>자동 입력을 위해서는 공인인증서가 필요하여 개인정보 보호를 위해 지원하지 않습니다. <strong>홈택스에서 1분 만에 확인</strong>하고 직접 입력해 보세요!</p>
+        <ol>
+          <li><a href="https://www.hometax.go.kr" target="_blank" class="text-gold">국세청 홈택스(hometax.go.kr)</a>에 접속하여 로그인합니다.</li>
+          <li>상단 메뉴에서 <strong>[장려금·연말정산·전자기부금] &gt; [연말정산간소화]</strong> 메뉴로 들어갑니다.</li>
+          <li>소득·세액공제 자료 조회 버튼을 클릭합니다.</li>
+          <li>목록 중 <strong>[신용카드], [직불카드등(체크/현금영수증)], [전통시장/대중교통]</strong> 항목의 금액을 확인합니다.</li>
+          <li>확인된 금액을 이 계산기에 만원 단위로 입력해주세요. (예: 1,500,000원 -> 150)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

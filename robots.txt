@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hwangcoding.github.io/Tax_Calculator/sitemap.xml
