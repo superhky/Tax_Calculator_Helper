@@ -933,6 +933,21 @@ input[type="range"]::-moz-range-thumb {
 .hidden { display: none !important; }
 
 /* ---- Responsive ---- */
+/* ---- Side Ad (PC) ---- */
+.side-ad-container {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(50% - 400px - 180px);
+  z-index: 100;
+}
+
+@media (max-width: 1200px) {
+  .side-ad-container {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --space-xl: 24px;
